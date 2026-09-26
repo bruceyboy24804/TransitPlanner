@@ -124,10 +124,10 @@ A built-in guide to every feature, with screenshots and a search box. The **?** 
 	<RequiredDLC Value="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 	<ChangeLog># Version 1.0
-- Unlisted Access		
+- Public release	
 	</ChangeLog>
 	<!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
 	<ExternalLink Type="" Url="" />
 	<!--Supported values Public, Private, Unlisted-->
-	<AccessLevel Value="Unlisted" />
+	<AccessLevel Value="Public" />
 </Publish>
