@@ -1,0 +1,262 @@
+// The SVGcomponent sets width/height 100%; the wrapper class must give it a definite height,
+// otherwise useSVGSetup never sees a size and the viewport stays undefined.
+.svg {
+    width: 100%;
+    height: 220rem;
+    flex: 0 0 220rem;
+}
+
+.night {
+    fill: rgba(0, 0, 0, 0.35);
+}
+
+.grid {
+    stroke: rgba(255, 255, 255, 0.08);
+    stroke-width: 1;
+}
+
+.gridMajor {
+    stroke: rgba(255, 255, 255, 0.2);
+    stroke-width: 1;
+}
+
+.axis {
+    fill: rgba(255, 255, 255, 0.55);
+    font-size: 15rem;
+}
+
+.band {
+    stroke: rgba(255, 255, 255, 0.25);
+    stroke-width: 1;
+    }
+
+.bandDefault {
+    fill: rgba(255, 255, 255, 0.12);
+}
+
+.bandHeadway {
+    fill: rgba(64, 160, 255, 0.55);
+}
+
+.bandFleet {
+    fill: rgba(80, 200, 120, 0.55);
+}
+
+.bandOff {
+    fill: rgba(120, 40, 40, 0.55);
+}
+
+.bandSelected {
+    stroke: rgba(255, 255, 255, 0.9);
+    stroke-width: 2;
+}
+
+.bandText {
+    fill: rgba(255, 255, 255, 0.95);
+    font-size: 18rem;
+}
+
+.edgeText {
+    fill: rgba(255, 255, 255, 0.8);
+    font-size: 14rem;
+}
+
+.handle {
+    fill: rgba(255, 255, 255, 0.2);
+}
+
+.handleActive {
+    fill: rgba(255, 255, 255, 0.8);
+}
+
+.now {
+    stroke: rgba(255, 220, 80, 0.9);
+    stroke-width: 2;
+}
+
+.timelineWrap {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.zoomReset {
+    position: absolute;
+    top: 2rem;
+    right: 8rem;
+    font-size: 11rem;
+    padding: 2rem 6rem;
+    border-radius: 3rem;
+    color: var(--textColor);
+    background-color: rgba(0, 0, 0, 0.4);
+    pointer-events: auto;
+}
+
+// The horizontal scrollbar under a zoomed timeline; the wheel zooms, this pans.
+.scrollTrack {
+    position: relative;
+    height: 10rem;
+    margin: 0 28rem 4rem 28rem;
+    border-radius: 5rem;
+    background-color: rgba(255, 255, 255, 0.08);
+    pointer-events: auto;
+}
+
+.scrollThumb {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    min-width: 24rem;
+    border-radius: 5rem;
+    background-color: rgba(255, 255, 255, 0.35);
+    pointer-events: auto;
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.55);
+    }
+}
+
+// The measured history under the bands.
+.loadArea {
+    fill: rgba(255, 255, 255, 0.18);
+    stroke: rgba(255, 255, 255, 0.5);
+    stroke-width: 1;
+}
+
+.queueLine {
+    fill: none;
+    stroke: rgba(255, 210, 90, 0.9);
+    stroke-width: 2;
+}
+
+.overloadMark {
+    fill: rgba(255, 90, 80, 0.9);
+}
+
+.legend {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    font-size: 11rem;
+    color: var(--textColorDim);
+    margin: 2rem 28rem 0 28rem;
+}
+
+.legendItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 12rem;
+}
+
+.swatch {
+    width: 14rem;
+    height: 8rem;
+    margin-right: 4rem;
+    border-radius: 2rem;
+}
+
+.swatchLoad { background-color: rgba(255, 255, 255, 0.4); }
+.swatchQueue { background-color: rgba(255, 210, 90, 0.9); }
+.swatchOver { background-color: rgba(255, 90, 80, 0.9); }
+
+// Timetabled departures from the anchor, under the track.
+.departureTick {
+    fill: none;
+    stroke: rgba(140, 220, 255, 0.85);
+    stroke-width: 1.5;
+}
+
+// One cell per hour over the track; opacity = share of late departures.
+.lateMark {
+    fill: rgba(255, 110, 70, 1);
+}
+
+// Outside the line's service hours, over the bands: the line does not run there.
+// A light red wash, red diagonal hatching and a red border: "no service here".
+.closed {
+    fill: rgba(200, 40, 40, 0.14);
+    pointer-events: none;
+    cursor: ew-resize;
+}
+
+.closedHatch {
+    fill: none;
+    stroke: rgba(235, 70, 60, 0.55);
+    stroke-width: 1.5;
+    pointer-events: none;
+}
+
+.closedBorder {
+    fill: none;
+    stroke: rgba(235, 70, 60, 0.95);
+    stroke-width: 2;
+    pointer-events: none;
+}
+
+.closedText {
+    fill: rgba(255, 150, 140, 0.95);
+    font-size: 13rem;
+    pointer-events: none;
+}
+
+// The closed areas' draggable edges (service start / end).
+.serviceHandle {
+    fill: rgba(235, 70, 60, 0.9);
+    cursor: ew-resize;
+}
+
+.serviceHandleActive {
+    fill: rgba(255, 140, 120, 1);
+}
+
+// The selected closed block: a brighter, thicker border.
+.closedSelected {
+    stroke: rgba(255, 150, 130, 1);
+    stroke-width: 3;
+}
+
+// A TargetLoad band: the fleet follows the measured load.
+.bandTarget {
+    fill: rgba(120, 200, 140, 0.55);
+}
+
+// Freight history: vehicles running (step line + counts) and the share running empty.
+.fleetLine {
+    fill: none;
+    stroke: rgba(140, 220, 255, 0.95);
+    stroke-width: 2;
+}
+
+.fleetMark {
+    fill: rgba(140, 220, 255, 1);
+    font-size: 11rem;
+    font-weight: bold;
+}
+
+.emptyLine {
+    fill: none;
+    stroke: rgba(210, 210, 210, 0.9);
+    stroke-width: 1.5;
+    stroke-dasharray: 5 4;
+}
+
+// A TargetLoad band's min / max, on the load scale.
+.targetLine {
+    stroke: rgba(255, 255, 255, 0.85);
+    stroke-width: 1.5;
+    stroke-dasharray: 8 5;
+    pointer-events: none;
+}
+
+.swatchFleet {
+    background-color: rgba(140, 220, 255, 0.95);
+}
+
+.swatchEmpty {
+    background-color: rgba(210, 210, 210, 0.9);
+}
+
+.swatchTarget {
+    background-color: rgba(255, 255, 255, 0.85);
+}

@@ -1,0 +1,159 @@
+.wrap {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8rem;
+}
+
+// The SVGcomponent sets 100%/100%; a definite height is what gives the viewport a size.
+.svg {
+    width: 100%;
+    height: 195rem;
+    flex: 0 0 195rem;
+}
+
+// The line itself, drawn like a transit map: a dark casing with the line's own colour inside.
+.trackCasing {
+    stroke: rgba(0, 0, 0, 0.55);
+    stroke-linecap: round;
+}
+
+.track {
+    stroke-linecap: round;
+}
+
+// Lateness lives under the line so the casing above keeps the line's identity.
+.lateness {
+    stroke-width: 3rem;
+    stroke-linecap: round;
+}
+
+.legOk { stroke: rgba(120, 200, 140, 0.85); }
+.legSlow { stroke: rgba(255, 200, 80, 0.95); }
+.legBad { stroke: rgba(255, 90, 80, 0.95); }
+
+.legOkBg { background-color: rgba(120, 200, 140, 0.9); }
+.legSlowBg { background-color: rgba(255, 200, 80, 0.95); }
+.legBadBg { background-color: rgba(255, 90, 80, 0.95); }
+
+// Station bullet: white disc on a ring in the line's colour (the ring is the disc behind it).
+.stop {
+    fill: rgb(245, 247, 250);
+}
+
+.stopRing {
+    stroke: rgba(0, 0, 0, 0.45);
+    stroke-width: 1;
+}
+
+.stopLabel {
+    fill: rgba(255, 255, 255, 0.8);
+    font-size: 11rem;
+}
+
+.stopLabelTerminus {
+    fill: rgb(255, 255, 255);
+    font-size: 12rem;
+}
+
+// Waiting passengers: a pill above the bullet rather than a bare number on the line.
+.waitPill {
+    fill: rgba(255, 255, 255, 0.16);
+}
+
+.waitPillBusy {
+    fill: rgba(255, 170, 60, 0.85);
+}
+
+.waitText {
+    fill: rgb(255, 255, 255);
+    font-size: 10rem;
+}
+
+// Vehicles: a ring coloured by crowdedness with a disc inside sized by load (XTM's read).
+.vehicleRing {
+    fill: rgba(12, 14, 18, 0.9);
+    stroke-width: 2.5;
+}
+
+.vehicleFill {
+    stroke: none;
+}
+
+.vehicleReturning {
+    opacity: 0.4;
+}
+
+.axisLabel {
+    fill: rgba(255, 255, 255, 0.55);
+    font-size: 12rem;
+}
+
+.legend {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    font-size: 11rem;
+    color: var(--textColorDim);
+}
+
+.legendItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 12rem;
+}
+
+.swatch {
+    width: 14rem;
+    height: 6rem;
+    border-radius: 3rem;
+    margin-right: 4rem;
+}
+
+.legendWarn {
+    color: var(--warningColor);
+}
+
+// Tooltip content; the floating tooltip supplies the plate, colour is stated for the same reason
+// as inside vanilla's dropdown menus.
+.tip {
+    display: flex;
+    flex-direction: column;
+    font-size: 12rem;
+    color: rgb(255, 255, 255);
+}
+
+.tipTitle {
+    font-size: 13rem;
+    margin-bottom: 2rem;
+}
+
+.tipWarn {
+    color: var(--warningColor);
+}
+
+// Interchanges: a short bar per other line under the bullet, and a dot in its chip / tooltip.
+.transfer {
+    stroke: rgba(0, 0, 0, 0.5);
+    stroke-width: 0.5;
+}
+
+.tipTransfer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.tipSwatch {
+    width: 8rem;
+    height: 8rem;
+    border-radius: 4rem;
+    margin-right: 6rem;
+}
+
+.tipHint {
+    margin-top: 4rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+

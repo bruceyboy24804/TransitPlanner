@@ -1,0 +1,16 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Timetable anchor stop. One filled colour: drawn as a mask and tinted in the UI. -->
+  <g fill="#fff" fill-rule="evenodd">
+    <!-- ring -->
+    <path d="M256 30a50 50 0 1 1 0 100a50 50 0 1 1 0-100zm0 26a24 24 0 1 0 0 48a24 24 0 1 0 0-48z"/>
+    <!-- stock -->
+    <rect x="160" y="150" width="192" height="36" rx="18"/>
+    <!-- shank -->
+    <rect x="238" y="124" width="36" height="330" rx="10"/>
+    <!-- arms: a half ring under the shank -->
+    <path d="M88 300A168 168 0 0 0 424 300L388 300A132 132 0 0 1 124 300Z"/>
+    <!-- flukes -->
+    <path d="M60 232L150 316L44 334Z"/>
+    <path d="M452 232L362 316L468 334Z"/>
+  </g>
+</svg>

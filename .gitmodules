@@ -1,0 +1,3 @@
+[submodule "TransitPlanner/Common"]
+	path = TransitPlanner/Common
+	url = https://github.com/bruceyboy24804/ModsCommon.git

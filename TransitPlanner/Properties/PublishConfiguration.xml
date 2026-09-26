@@ -1,0 +1,133 @@
+﻿<Publish>
+	<!--Id must be set in order to update existed mod. it is not required for publishing mod for the first time-->
+	<ModId Value="" />
+	<!--Name of the mod to display to players-->
+	<DisplayName Value="Transit Planner" />
+	<!--Short description of the mod-->
+	<ShortDescription Value="Schedules, timetables, fares and fleets per transit line, plus a network map and an infoview that shows where your transit is failing." />
+	<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
+	<!--LongDescription Value="This is a long description" /-->
+	<LongDescription>
+# Transit Planner
+
+Vanilla gives every transit line one slider — "vehicle count" — and hides every number the simulation computes about how the line is doing. Transit Planner gives each line a real **schedule** and **timetable**, and shows you, for the first time in the UI, whether they are actually being met.
+
+Open it from the button in the top-left strip. Everything lives in one draggable panel with seven tabs: **Planner**, **Schedule**, **Timetable**, **Fleet**, **Depots**, **Network** and **Rules**. Stuck? Press the **?** in the panel's corner, or next to any setting, for the built-in **encyclopedia**.
+
+## Planner — a schedule per line
+Pick a transport type on the left, a line in the list, and you get a **24-hour timeline** for it.
+
+- **Time bands.** Split the day into bands (peak / off-peak / night, or whatever you like) by dragging band edges on the timeline; drags snap to 5 minutes. Each band is one of:
+  - **Headway** — "a vehicle every N minutes". The mod computes the fleet the game needs and keeps it there.
+  - **Fleet** — "run exactly N vehicles". The headway follows.
+  - **Vanilla** — hand the band back to the game (and to the vanilla slider).
+  - **Frequency** (departures per hour), **Ramp** (headway easing from one value to another across the band), **Budget** (a headway, but never more than N vehicles) and **Match line** (a multiple of another line's headway).
+  - **Self-adjusting**: **Target load** keeps the hour's load in a range, **Follow demand** sizes the fleet from the hour's history, **Crowding cap** watches the fullest vehicle, and **Target wait** watches the wait at the stops — one vehicle up or down at most once a game hour.
+  - **Express** — run the line's short form during the band (experimental).
+- **Service hours.** Add a **start**, **end** or **closed** block to the timeline and drag it like a band — resize it by its edges, move it by its middle. The line is switched off inside a block and its vehicles go home; bands can't be dragged into one, and they are trimmed when a block grows over them. Use it for a night bus that only runs at night, or an extension line that only runs in work hours.
+- **Presets** apply a whole day's bands in one click, trimmed to the service hours. **Save your own** from any line — they follow you between cities.
+- **Fare per band**, e.g. a peak surcharge. The Paid Ticket policy is switched on for you when a band carries a fare.
+- **Fare rule by distance** — base fare + per-kilometre — charged on how far each rider actually travels on the line. This also fixes a vanilla bug: riders boarding a trailing train or tram car paid nothing, because only the head car knows its line.
+- **Vehicle model per band** — small buses in the morning, articulated ones at midday. The game turns the fleet over itself; the line's own model selection is restored when no band asks for one.
+- **Unbunching** — vanilla holds vehicles at stops to keep them evenly spaced. Set the hold from 0 % (never hold) to 300 % of the vanilla hold, per line.
+- **Route variants** (experimental) — a short-turn form of a line, remembered by stops and rebuilt on request.
+- **Wait for load** — hold vehicles at chosen stops until they are full enough, for at least and at most a time you set.
+
+### What the game already knows, finally shown
+For the selected line: current headway, fleet now vs the fleet the game is aiming for, load (riders / seats), the vanilla "not enough vehicles" state, fare, unbunching factor, **average wait and queue at every stop**, and **planned vs achieved time for every leg** so you can see where a line is losing time. A **line map** draws the loop with its vehicles, their load and state, legs coloured by how late they run, and interchange dots for the other lines at each stop — click any of them to jump there. A **24-hour history** of load and queue length (saved with the line) is drawn under the bands, so you see exactly which band is failing.
+
+## Schedule — every line on one board
+Every line of the type as a row on a shared 24-hour axis, like a traffic-signal plan editor: drag bands on any row, zoom and pan the day, scrub the playhead to see each line's headway and vehicles at that hour, and compare the vehicles the schedules need each hour with what the depots own.
+- **Drafts**: edits collect until you press **Apply**, or apply immediately if you prefer.
+- **Schedule wizard**: pick lines, a day pattern with its peaks, service hours and headways — optionally self-adjusting peaks, fares, unbunching and timetables, stretched to what the depots can run — and review the result as a draft.
+- **Templates** that many lines follow (edit once, every linked line updates; drifted lines are flagged), **groups** of rows, and **named plans** (e.g. Weekday / Event) you can switch between.
+- A **problems strip** for depot shortfalls, lines short of vehicles and lines that drifted from their template, and a **coordination** view of departures within an hour.
+
+## Timetable — departures on the clock
+A table of every line of the type with its timetable at a glance — anchor stop, first departure, interval, timing points, **% on time** and **average lateness** — and the selected line's timetable editor underneath (drag the divider to share the height).
+
+- **Anchor stop**: vehicles boarding there wait for their slot, so the line runs "on the 15s".
+- **Every N minutes** from a first departure, **follow the bands** (each Headway band gets its own grid, so the fleet matches the timetable), or **set times** you pick by hand.
+- **Timing points** at some or all stops: a vehicle may not leave before its scheduled time there, derived from the leg times plus a margin you set.
+- **When late**: wait for the next free slot, or leave at once if only a few minutes behind.
+- **Pulse**: give every line at the anchor stop (or its station) the same departures, so passengers change on the same minutes.
+- A **printed timetable** — stops down, departures across, from now — with the anchor and timing points marked; click a stop to make it a timing point.
+- **Punctuality** is measured on every timetabled departure and shown per line, on the timeline and in the Fleet tab.
+
+## Fleet
+The vanilla transportation overview rebuilt from its own parts, with more columns: fleet / target, headway, load, ticket, models, and sortable **peak load / quiet load / max wait / lateness** measured over the day. Multi-select lines and edit them in bulk: vehicle models (all / some / none, "apply this line's models to every line of the type"), paid ticket, day-only / night-only, active.
+
+## Depots
+Every depot of the type with vehicles available / owned / capacity and the lines it serves. **Bind lines to a depot** so only that depot sends their vehicles — when it has nothing spare the line reports "not enough vehicles" and the tab flags the depot as starved.
+
+## Network
+A live, geographic map of the whole network of a type, drawn in the panel:
+- Real route geometry over roads and tracks, terrain, water, zone blocks, building footprints and district outlines — all in one **Layers** menu — with a minimap, a scale bar, and Fit / 1:1 / +/− zoom.
+- **Vehicles move** on the map with their load; hollow while boarding, faded when returning to depot. Click one to follow it.
+- Lines can be coloured by their own colour or by **load per leg**; stops show a **waiting-heat halo** and an **interchange ring** with one arc per line calling there.
+- **Time of day**: scrub or play through the day and see the network as scheduled at that hour — lines not running fade out, line width shows vehicles per hour, colours show that hour's measured load.
+- **Departure board**: click a stop for its next departures across every line calling there — real times for timetabled lines, "every N min" for the rest.
+- **Coverage gaps**: where people live and work with no stop within 400 m.
+- **Reach**: click a stop and every other stop is coloured by travel time from it, with walking areas around each; it uses the hour you are looking at. **Freeze** a result, change something, and see which stops got closer or further.
+- **Edit a line on the map**: right-click it, click stops to add or remove them, apply. Or **start a new line** by clicking stops in order.
+- **Schematic** view: the network as a simplified tube map.
+- A line list beside the map: hide, solo, hover-highlight, "problems only" (short of vehicles or ≥ 90 % loaded); each line's tooltip has a 24-bar load sparkline.
+- **Right-click** a line for planner / edit stops / solo / hide / highlight in world / active / day-night / rename / bind to depot; a stop for reach and a new line; a depot for go-there and bind / unbind.
+- Labels for line names and stop names as you zoom in, and a catchment disc around every stop (radius adjustable).
+
+## Freight
+Cargo lines get their own page: utilisation, how many trains run empty, the main cargo, a **flow chart** of each leg's cargo by resource, and a **station table** with what is arriving, held and stored and each station's rating. Freight band modes follow **station stock**, the **cargo waiting** to be sent, or run **convoys** that leave on fixed slots once full enough; **Wait for load** keeps a train at a station while it fills.
+
+## Rules
+Automate it: "new bus lines get preset X and model Y", "lines with peak load over 80 % prefer model Z", "lines more than 3 minutes late switch to leave-now". A rule can fire on a new line, always, peak / quiet / hourly load, max wait, lateness, on-time share, a short fleet or a fleet size, and can be limited to lines whose name contains a word. It can set **models, a schedule preset, service hours, a timetable** (with timing points), **unbunching, paid ticket, day / night running** and **a distance fare**. Rules are a player preference (they follow you between cities); auto rules are evaluated on a timer, or run them all once by hand.
+
+## Infoview
+A **Transit Planner** infoview in the game's infoview menu, with its own legend rows and live figures:
+- **Heatmaps** (up to four at once): transit coverage, service frequency (departures per hour), waiting passengers, average wait, unserved demand (where people live and work with no stop within 400 m), and reach from a stop you click in the world.
+- **Building colouring** by distance to a stop, reach from the clicked stop, or service frequency within a walk.
+- **Line and vehicle load**: every transit vehicle tinted by how full it is, and the roads and tracks under each line coloured by the load of the vehicle that last ran that stretch — so an overloaded section stands out from the sky.
+- **Vehicle state**: running, boarding, held at a stop (timetable or unbunching), or bunched up behind the vehicle ahead.
+
+## Selection both ways
+Click a stop, station, vehicle or line in the world and the open planner follows it. Click a stop or vehicle anywhere in the planner and the camera goes there.
+
+## Encyclopedia
+A built-in guide to every feature, with screenshots and a search box. The **?** in the panel's corner opens the article for the tab you are on; the small **?** beside a setting explains that setting.
+
+## Good to know
+- Schedules, service hours, timetables, fares, depot bindings and history are **saved with the city**, on the lines themselves. Presets and rules are saved with your settings.
+- A line you never touch stays exactly vanilla. The vanilla vehicle-count slider still works on any line, and on any band set to Vanilla.
+- No vanilla data is rewritten permanently: the mod re-applies its settings on the game's own tick and hands the line back when a band is cleared. Uninstalling leaves your lines with whatever vanilla policies they last had (day/night, inactive, paid ticket).
+- Units are the game's: a game day is about 73 simulation minutes, so "every 5 min" means five clock minutes on the in-game clock.
+	</LongDescription>
+	<!--Thumbnail-->
+	<Thumbnail Value="Properties/TransitPlanner.jpg" />
+	<!--Screenshot, can be set multiple times-->
+	<Screenshot Value="Properties/1.jpg" />
+	<Screenshot Value="Properties/2.png" />
+	<Screenshot Value="Properties/3.png" />
+	<Screenshot Value="Properties/4.jpg" />
+	<Screenshot Value="Properties/5.jpg" />
+	<Screenshot Value="Properties/6.png" />
+
+	<!--Tag, can be set multiple times-->
+	<Tag Value="" />
+	<!--Link to the forum post where the mod can be discussed-->
+	<ForumLink Value="" />
+	<!--Version of the mod-->
+	<ModVersion Value="1.0" />
+	<!--Recommended version of the base game to use the mod-->
+	<GameVersion Value="1.6.2*" />
+	<!--Dependency for the mod, can be set multiple times-->
+	<Dependency Id="" />
+	<!--Required DLC, can be set multiple times. Supported values are "Landmark Buildings", "San Fransisco Set", "Beach Properties", "Urban Promenades", "Modern Architecture"-->
+	<RequiredDLC Value="" />
+	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
+	<ChangeLog># Version 1.0
+- Unlisted Access		
+	</ChangeLog>
+	<!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
+	<ExternalLink Type="" Url="" />
+	<!--Supported values Public, Private, Unlisted-->
+	<AccessLevel Value="Unlisted" />
+</Publish>

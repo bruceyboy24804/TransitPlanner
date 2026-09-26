@@ -1,0 +1,55 @@
+// The Transit Planner infoview's legend rows: on vanilla's infomode-item classes, plus an icon
+// before the title and a line of live figures under the gradient. Longhands only.
+
+.row {
+    padding-bottom: 4rem;
+}
+
+.icon {
+    width: 18rem;
+    height: 18rem;
+    margin-right: 4rem;
+}
+
+.figures {
+    display: flex;
+    flex-direction: row;
+    margin-top: 3rem;
+    font-size: 11rem;
+    color: var(--textColorDim);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+// A figure line mixing text and a LocalizedEntityName: two flex items, so the span must be a row.
+.figures > span {
+    display: flex;
+    flex-direction: row;
+    white-space: pre;
+}
+
+.states {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 4rem;
+}
+
+.state {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 12rem;
+    font-size: 12rem;
+}
+
+.swatch {
+    width: 12rem;
+    height: 12rem;
+    margin-right: 4rem;
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+}

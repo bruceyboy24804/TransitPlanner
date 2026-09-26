@@ -1,0 +1,576 @@
+// Network view. Layout notes as in planner.module.scss (rows state their direction, no gap).
+
+.page {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    height: 100%; // the body is a row; without this the page shrinks to its content
+    min-width: 0;
+    min-height: 0;
+}
+
+.bar {
+    flex: 0 0 auto;
+    align-items: center;
+    padding: 6rem 10rem;
+    // Wraps rather than running off the panel on a narrow window.
+    flex-wrap: wrap;
+}
+
+.split {
+    display: flex;
+    flex-direction: row;
+    flex: 1 1 auto;
+    min-height: 0;
+    margin: 0 10rem;
+}
+
+.canvas {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.25);
+    border-radius: 4rem;
+}
+
+// Filter / focus list beside the map.
+.side {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 300rem;
+    min-height: 0;
+    margin-left: 8rem;
+}
+
+.sideHead {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 0 0 auto;
+    margin-bottom: 4rem;
+}
+
+.sideList {
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+.sideRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 2rem 4rem;
+    font-size: 12rem;
+    color: var(--textColor);
+    border-radius: 3rem;
+}
+
+.sideRowHot {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.sideRowDim {
+    opacity: 0.4;
+}
+
+.sideSwatch {
+    width: 10rem;
+    height: 10rem;
+    border-radius: 2rem;
+    margin: 0 6rem;
+    flex: 0 0 10rem;
+}
+
+.sideName {
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sideMeta {
+    font-size: 11rem;
+    color: var(--textColorDim);
+    margin-left: 6rem;
+    white-space: nowrap;
+}
+
+// Scale bar, bottom-left of the canvas.
+.scaleBar {
+    position: absolute;
+    left: 10rem;
+    bottom: 8rem;
+    display: flex;
+    flex-direction: column;
+    pointer-events: none;
+}
+
+.scaleLine {
+    height: 4rem;
+    background-color: rgba(255, 255, 255, 0.85);
+    border-left-width: 2px;
+    border-left-style: solid;
+    border-left-color: rgba(255, 255, 255, 0.85);
+    border-right-width: 2px;
+    border-right-style: solid;
+    border-right-color: rgba(255, 255, 255, 0.85);
+}
+
+.scaleText {
+    font-size: 11rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin-top: 2rem;
+    white-space: nowrap;
+}
+
+// Minimap, bottom-right of the canvas.
+.miniMap {
+    position: absolute;
+    right: 8rem;
+    bottom: 8rem;
+    background-color: rgba(0, 0, 0, 0.55);
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.25);
+    border-radius: 3rem;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.miniLine {
+    fill: none;
+    stroke-width: 1.5;
+    opacity: 0.9;
+}
+
+.miniView {
+    fill: rgba(255, 255, 255, 0.12);
+    stroke: rgb(255, 255, 255);
+    stroke-width: 1;
+}
+
+// Right-click menu, positioned inside the canvas at the cursor. The plate and the rows are
+// vanilla's in-game dropdown (game-dropdown.module.scss dropdownMenu / dropdownItem); ours only
+// places it and keeps it from stretching like a popup does. Colour is stated: the dropdown
+// plate does not inherit it (BTS found rows rendering black on near-black).
+.menu {
+    position: absolute; // inside the backdrop, at the click's canvas position
+    display: flex;
+    flex-direction: column;
+    min-width: 240rem;
+    max-width: 420rem;
+    color: var(--textColor);
+    font-size: 13rem;
+}
+
+// Covers the canvas (its positioned parent); the menu is its child.
+.menuBackdrop {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.menuTitle {
+    padding: 4rem 10rem 6rem;
+    font-size: 13rem;
+    color: var(--accentColorNormal);
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgba(255, 255, 255, 0.12);
+    margin-bottom: 2rem;
+    white-space: nowrap;
+}
+
+// On top of dropdownItem: it carries the row padding and the hover plate already.
+.menuItem {
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.menuItemDisabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.menuInputRow {
+    display: flex;
+    flex-direction: row;
+    padding: 2rem 8rem 4rem;
+}
+
+.menuInput {
+    flex: 1 1 auto;
+    min-width: 200rem;
+}
+
+.menuIndent {
+    margin-left: 12rem;
+}
+
+.menuHint {
+    padding: 4rem 10rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+// The new-line sketch on the map and its bar.
+.sketch {
+    fill: none;
+    stroke: rgb(255, 255, 255);
+    stroke-linejoin: round;
+}
+
+.sketchNode {
+    fill: rgb(255, 255, 255);
+    stroke: rgb(0, 0, 0);
+    stroke-width: 2;
+}
+
+.sketchLabel {
+    fill: rgb(0, 0, 0);
+    font-size: 11rem;
+}
+
+.sketchBar {
+    position: absolute;
+    left: 10rem;
+    top: 8rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 4rem 8rem;
+    background-color: rgba(15, 16, 19, 0.85);
+    border-radius: 4rem;
+    color: rgb(255, 255, 255);
+    font-size: 12rem;
+
+    > * {
+        margin-right: 8rem;
+    }
+}
+
+// Reach: a coloured disc per stop by travel time, a ring on the origin.
+.reachDisc {
+    fill-opacity: 0.35;
+    stroke: none;
+}
+
+.reachOrigin {
+    fill: rgba(255, 255, 255, 0.15);
+    stroke: rgb(255, 255, 255);
+    stroke-width: 2;
+}
+
+// Terrain: height bands (opacity set inline per band) and water.
+.terrain {
+    fill: rgb(255, 255, 255);
+    stroke: none;
+}
+
+.water {
+    fill: rgba(70, 130, 200, 0.45);
+    stroke: none;
+}
+
+// Ground: zoned blocks as a faint fill, building footprints slightly stronger (shown when zoomed in).
+.block {
+    fill: rgba(255, 255, 255, 0.04);
+    stroke: none;
+}
+
+.building {
+    fill: rgba(255, 255, 255, 0.10);
+    stroke: none;
+}
+
+// Road / track background, drawn in world space under everything.
+.road {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.14);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.track {
+    fill: none;
+    stroke: rgba(180, 200, 255, 0.22);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+// District context.
+.district {
+    fill: rgba(255, 255, 255, 0.03);
+    stroke: rgba(255, 255, 255, 0.25);
+    stroke-width: 1;
+    stroke-dasharray: 6 4;
+}
+
+.lineLabel {
+    font-size: 12rem;
+    stroke: rgba(0, 0, 0, 0.7);
+    stroke-width: 0.5;
+}
+
+// Stop catchment discs in world metres, under the lines.
+.catchment {
+    fill: rgba(120, 220, 160, 0.10);
+    stroke: rgba(120, 220, 160, 0.35);
+    stroke-width: 2;
+}
+
+// The 24 h load sparkline in a line's tooltip.
+.spark {
+    display: flex;
+    flex-direction: column;
+    margin-top: 4rem;
+}
+
+.sparkBar {
+    fill: rgba(120, 200, 255, 0.85);
+}
+
+.sparkBarHot {
+    fill: rgb(255, 110, 60);
+}
+
+.sparkFull {
+    stroke: rgba(255, 255, 255, 0.35);
+    stroke-width: 1;
+    stroke-dasharray: 3 3;
+}
+
+.sparkAxis {
+    fill: rgba(255, 255, 255, 0.55);
+    font-size: 9rem;
+}
+
+.districtLabel {
+    fill: rgba(255, 255, 255, 0.35);
+    font-size: 12rem;
+}
+
+.svg {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.line {
+    fill: none;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    opacity: 0.9;
+}
+
+.lineInactive {
+    opacity: 0.35;
+}
+
+.lineHot {
+    opacity: 1;
+}
+
+.lineDim {
+    opacity: 0.3;
+}
+
+.stop {
+    fill: rgb(255, 255, 255);
+    stroke: rgba(0, 0, 0, 0.6);
+    stroke-width: 1;
+}
+
+.interchange {
+    fill: rgb(255, 255, 255);
+    stroke: rgb(0, 0, 0);
+    stroke-width: 2;
+}
+
+.stopBusy {
+    fill: rgb(255, 210, 90);
+}
+
+// Waiting heat under a stop: faint, growing with the queue; warmer past 20.
+.halo {
+    fill: rgba(255, 210, 90, 0.18);
+    stroke: none;
+}
+
+.haloBusy {
+    fill: rgba(255, 120, 60, 0.28);
+}
+
+.ring {
+    fill: none;
+    stroke-linecap: butt;
+}
+
+.depot {
+    fill: rgb(230, 230, 230);
+    stroke: rgb(0, 0, 0);
+    stroke-width: 2;
+}
+
+.depotEmpty {
+    fill: rgb(150, 150, 150);
+}
+
+.depotStarved {
+    fill: rgb(230, 70, 60);
+}
+
+.depotLink {
+    stroke-width: 1.5;
+    opacity: 0.6;
+}
+
+.depotLinkStarved {
+    stroke: rgb(230, 70, 60);
+    opacity: 0.9;
+}
+
+.vehicle {
+    opacity: 1;
+}
+
+.vehicleReturning {
+    opacity: 0.45;
+}
+
+.vehicleRing {
+    fill: rgba(0, 0, 0, 0.55);
+    stroke-width: 2;
+}
+
+.vehicleFill {
+    stroke: none;
+}
+
+.label {
+    fill: rgba(255, 255, 255, 0.85);
+    font-size: 11rem;
+}
+
+.legend {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex: 0 0 auto;
+    padding: 4rem 10rem;
+    font-size: 11rem;
+    color: var(--textColorDim);
+}
+
+.legendItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 12rem;
+}
+
+.swatch {
+    width: 10rem;
+    height: 10rem;
+    border-radius: 5rem;
+    margin-right: 4rem;
+    background-color: rgb(255, 255, 255);
+}
+
+.swatchInterchange {
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgb(0, 0, 0);
+}
+
+.swatchDepot {
+    border-radius: 2rem;
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgb(0, 0, 0);
+    background-color: rgb(230, 230, 230);
+}
+
+.swatchBusy {
+    background-color: rgb(255, 210, 90);
+}
+
+.tip {
+    display: flex;
+    flex-direction: column;
+    font-size: 12rem;
+    color: rgb(255, 255, 255);
+}
+
+.tipTitle {
+    font-size: 13rem;
+    margin-bottom: 2rem;
+}
+
+.tipWarn {
+    color: var(--warningColor);
+}
+
+// --- Planning layers (network-extras.tsx) --------------------------------------------------------
+
+.timeBar {
+    padding-left: 8rem;
+    padding-right: 8rem;
+    margin-top: 4rem;
+}
+
+// A line not running at the scrubbed hour.
+.lineClosed {
+    opacity: 0.18;
+}
+
+// Coverage gaps: people with no stop in walking range, one square per 200 m cell.
+.gap {
+    fill: rgba(255, 90, 60, 1);
+    stroke: none;
+}
+
+// Reach isochrones: the walking catchment of every reached stop, under the lines.
+.isochrone {
+    stroke: none;
+    fill-opacity: 0.16;
+}
+
+.board {
+    display: flex;
+    flex-direction: column;
+    padding: 6rem 8rem;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+.boardList {
+    max-height: 220rem;
+}
+
+.boardRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    font-size: 12rem;
+}
+
+.boardName {
+    margin-left: 6rem;
+}
+
+.boardTime {
+    color: rgba(140, 220, 255, 1);
+}
+
+// The Layers dropdown in the toolbar: a button's width, not the model picker's 420rem.
+.layersHost {
+    width: 150rem;
+    flex: 0 0 150rem;
+}

@@ -1,0 +1,105 @@
+// The vanilla slider field, fitted to this panel: Network Tools' recipe — a relative row so the
+// unit can sit over the number box, the label given a fixed column so rows line up, and the
+// field's own padding removed. The vanilla classes are hashed, so they are reached by prefix
+// (`[class^="label"]`), which works here because CS2 enables complex selectors.
+
+.field {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    // Stacked slider rows (the wizard's headways and fares) need room between them.
+    margin-bottom: 8rem;
+
+    // The vanilla field takes the row with flex: 1 (Network Tools' recipe), so every row's number
+    // box ends at the same right edge, unit or not. Not width 100%: that pushed the box past the
+    // row's edge (label + slider + box then overflowed), which is why the box once vanished.
+    & > * {
+        padding: 0;
+    }
+
+    & > div {
+        flex: 1;
+        min-width: 0;
+    }
+
+    // The field's label column: fixed width so every row's slider starts at the same x.
+    [class^="label"] {
+        flex-grow: 0;
+        flex-shrink: 0;
+        flex-basis: auto;
+        width: 150rem;
+        margin-right: 8rem;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        font-size: 13rem;
+        line-height: 1.25em;
+        color: rgba(255, 255, 255, 0.85);
+    }
+
+    // The number box at the end of the row.
+    [class^="slider-input"],
+    [class^="number-field"] {
+        height: 26rem;
+        width: 62rem;
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+        padding-left: 5rem;
+        padding-right: 5rem;
+        font-size: 13rem;
+        line-height: 1.25em;
+        color: rgba(255, 255, 255, 0.85);
+        background-color: rgba(0, 0, 0, 0.3);
+        border-width: 1rem;
+        border-style: solid;
+        border-color: rgba(255, 255, 255, 0.2);
+        border-top-left-radius: 3rem;
+        border-top-right-radius: 3rem;
+        border-bottom-left-radius: 3rem;
+        border-bottom-right-radius: 3rem;
+
+        &:hover {
+            border-color: rgba(255, 255, 255, 0.45);
+        }
+    }
+}
+
+// The unit, inside the number box — Network Tools' recipe (toolActionPanel.module.scss
+// `.controlRow`): the vanilla field div takes the row (`flex: 1`, not width 100%, which is what
+// broke the box before) so the number box ends at the row's right edge, and the unit is absolute
+// at `right` within the relative row, over the box's right padding.
+$unit-width: 30rem;
+
+.withUnit {
+    [class^="slider-input"],
+    [class^="number-field"] {
+        width: 62rem + $unit-width;
+        padding-right: 5rem + $unit-width;
+    }
+}
+
+.unit {
+    position: absolute;
+    right: 6rem;
+    font-size: 11rem;
+    line-height: 1.25em;
+    color: rgba(255, 255, 255, 0.5);
+    pointer-events: none;
+}
+
+// Inline in a row that already carries a label (or a Vanilla/Custom toggle): drop the label cell,
+// and take only the room the row has left (width 100% on top of the row's buttons ran the slider
+// off the panel).
+.compact {
+    // Inline in another row: that row does the spacing.
+    margin-bottom: 0;
+    width: auto;
+    flex: 1 1 auto;
+    min-width: 0;
+
+    [class^="label"] {
+        width: 0;
+        margin-right: 0;
+    }
+}

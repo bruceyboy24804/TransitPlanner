@@ -1,0 +1,268 @@
+// The encyclopedia window. Every row-wise container states flex-direction: row (Gameface
+// defaults to column), and borders are longhands.
+
+.panel {
+    width: 980rem;
+    height: 680rem;
+}
+
+.content {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.body {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex: 1 1 auto;
+    min-height: 0;
+    height: 620rem;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    width: 290rem;
+    flex: 0 0 290rem;
+    min-height: 0;
+    border-right-width: 1px;
+    border-right-style: solid;
+    border-right-color: rgba(255, 255, 255, 0.1);
+}
+
+.search {
+    margin: 8rem;
+}
+
+.navScroll {
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+.navTab {
+    margin-bottom: 8rem;
+}
+
+.navTabTitle {
+    font-size: 12rem;
+    text-transform: uppercase;
+    color: var(--textColorDim);
+    padding: 8rem 12rem 4rem 12rem;
+}
+
+.navCategory {
+    font-size: 11rem;
+    color: var(--textColorDim);
+    padding: 4rem 12rem 2rem 18rem;
+}
+
+.navItem {
+    font-size: 14rem;
+    color: var(--textColor);
+    padding: 5rem 12rem 5rem 22rem;
+    cursor: pointer;
+
+    &:hover { background-color: rgba(255, 255, 255, 0.08); }
+}
+
+.navItemSelected {
+    background-color: rgba(255, 255, 255, 0.16);
+    color: white;
+}
+
+.none {
+    color: var(--textColorDim);
+    font-size: 13rem;
+    padding: 12rem;
+}
+
+.article {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 12rem 20rem 20rem 20rem;
+}
+
+.breadcrumb {
+    font-size: 11rem;
+    text-transform: uppercase;
+    color: var(--textColorDim);
+    margin-bottom: 4rem;
+}
+
+.articleTitle {
+    font-size: 22rem;
+    color: white;
+    margin-bottom: 12rem;
+}
+
+.subheading {
+    font-size: 15rem;
+    color: white;
+    margin-top: 6rem;
+    margin-bottom: 6rem;
+}
+
+.paragraph {
+    font-size: 14rem;
+    line-height: 1.45;
+    color: var(--textColor);
+    margin-bottom: 10rem;
+}
+
+.list {
+    margin-bottom: 10rem;
+}
+
+.bullet {
+    font-size: 14rem;
+    line-height: 1.45;
+    color: var(--textColor);
+    margin-bottom: 4rem;
+    padding-left: 8rem;
+}
+
+.term {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 6rem;
+}
+
+.termLabel {
+    flex: 0 0 170rem;
+    width: 170rem;
+    font-size: 14rem;
+    font-weight: bold;
+    color: white;
+    padding-right: 10rem;
+}
+
+.termText {
+    flex: 1 1 0;
+    min-width: 0;
+    font-size: 14rem;
+    line-height: 1.45;
+    color: var(--textColor);
+}
+
+.helpButton {
+    width: 22rem;
+    height: 22rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14rem;
+    font-weight: bold;
+    color: white;
+    background-color: rgba(255, 255, 255, 0.12);
+    border-top-left-radius: 11rem;
+    border-top-right-radius: 11rem;
+    border-bottom-left-radius: 11rem;
+    border-bottom-right-radius: 11rem;
+    cursor: pointer;
+
+    &:hover { background-color: rgba(255, 255, 255, 0.3); }
+}
+
+.helpInline {
+    margin-left: 6rem;
+    flex: 0 0 auto;
+}
+
+.helpTitle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+// Article images and the enlarged preview.
+.figure {
+    align-items: center;
+    margin-top: 4rem;
+    margin-bottom: 12rem;
+}
+
+.image {
+    cursor: pointer;
+    border-top-left-radius: 4rem;
+    border-top-right-radius: 4rem;
+    border-bottom-left-radius: 4rem;
+    border-bottom-right-radius: 4rem;
+}
+
+.caption {
+    font-size: 12rem;
+    color: var(--textColorDim);
+    margin-top: 4rem;
+}
+
+.imageMissing {
+    font-size: 12rem;
+    color: var(--textColorDim);
+    padding: 20rem;
+    margin-bottom: 12rem;
+    border-width: 1px;
+    border-style: dashed;
+    border-color: rgba(255, 255, 255, 0.25);
+    align-items: center;
+}
+
+.preview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.85);
+    cursor: pointer;
+}
+
+.previewImage {
+    max-width: 900rem;
+    max-height: 560rem;
+}
+
+.previewCaption {
+    font-size: 14rem;
+    color: white;
+    margin-top: 8rem;
+}
+
+// Breadcrumbs: names joined by the game's arrow glyph.
+.crumbs {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.chevron {
+    // Fixed size: a flex item shrinks by default, and beside a long name the glyph was squeezed
+    // to nothing while its margins kept the gap.
+    flex: 0 0 16rem;
+    width: 16rem;
+    min-width: 16rem;
+    height: 16rem;
+    margin-left: 8rem;
+    margin-right: 8rem;
+    // Not currentColor: unverified in Gameface as a background. Light enough for the dim
+    // breadcrumb and the list items alike.
+    background-color: rgba(255, 255, 255, 0.7);
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+}

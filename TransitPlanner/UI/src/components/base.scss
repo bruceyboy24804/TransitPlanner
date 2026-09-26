@@ -1,0 +1,145 @@
+// Button mixins modelled on the pattern RoadBuilder (MIT) and FindIt share, carried over from
+// IntersectionMarkingTool (same author). The conventions are theirs and worth matching, because
+// they are what make a mod's buttons behave like the game's own.
+//
+// The rules that matter:
+//   * every colour comes from CS2's own CSS custom properties, so buttons follow the game's palette
+//   * icons are masks tinted with the text colour, not images — so they dim when disabled
+//   * `pointer-events: auto`, because the layers mod panels mount into are click-through
+//   * a 0.15s colour transition; vanilla controls never snap between states
+
+/// Shared skeleton: layout, icon handling, and disabled behaviour.
+/// $hasText — whether the button has a label beside its icon, which decides the icon's size.
+/// $tintIcon — false for artwork that carries its own colours and must not be masked flat.
+@mixin baseButton($hasText: true, $tintIcon: true) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8rem;
+    border-width: 0;
+    border-style: none;
+    border-radius: 4rem;
+    pointer-events: auto;
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+    color: var(--menuText1Normal);
+
+    &[disabled],
+    &:global(.disabled) {
+        pointer-events: none;
+        color: var(--normalTextColorLocked);
+    }
+
+    img {
+        @if $hasText {
+            width: 22rem;
+            height: 22rem;
+            margin-right: 8rem;
+        } @else {
+            width: 22rem;
+            height: 22rem;
+        }
+
+        @if $tintIcon {
+            // Vanilla's `tinted-icon` treatment: the artwork becomes a mask filled with the text
+            // colour, so it follows the theme and greys out with the label.
+            background-color: var(--menuText1Normal);
+            mask-size: contain;
+            mask-position: 50% 50%;
+        }
+    }
+
+    &[disabled] img,
+    &:global(.disabled) img {
+        @if $tintIcon {
+            background-color: var(--normalTextColorLocked);
+        }
+    }
+}
+
+/// A solid button on the panel ground — the default for a real action.
+@mixin basicButton($hasText: true, $tintIcon: true) {
+    @include baseButton($hasText, $tintIcon);
+
+    background-color: var(--panelColorDark);
+    backdrop-filter: blur(4px);
+
+    &:hover {
+        background-color: var(--panelColorNormal);
+    }
+
+    &:active {
+        background-color: var(--accentColorDark-focused);
+    }
+
+    &[disabled],
+    &:global(.disabled) {
+        background-color: var(--panelColorDark);
+    }
+}
+
+/// A lighter button, for use on an already-dark ground where a solid one would disappear.
+@mixin lightButton($hasText: true, $tintIcon: true) {
+    @include baseButton($hasText, $tintIcon);
+
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.35);
+    }
+
+    &:active {
+        background-color: var(--accentColorDark-focused);
+    }
+
+    &[disabled],
+    &:global(.disabled) {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+}
+
+/// A chromeless button that only shows its ground on hover — for icon strips and tabs.
+@mixin transparentButton($hasText: true, $tintIcon: true) {
+    @include baseButton($hasText, $tintIcon);
+
+    background-color: transparent;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    &:active {
+        background-color: var(--accentColorDark-focused);
+    }
+
+    &[disabled],
+    &:global(.disabled) {
+        background-color: transparent;
+        opacity: 0.75;
+    }
+}
+
+/// The selected state vanilla uses on toggles and tabs: a vertical highlight gradient rather than
+/// a flat fill, with the icon given a drop shadow so it stays legible against the lighter ground.
+///
+/// The `legacy-interface` override is the game's older flat look, where the gradient is wrong and
+/// a solid accent is used instead. FindIt and RoadBuilder both carry this, and without it the
+/// selected state is visibly off for anyone running that interface.
+@mixin selectedButton {
+    // Verified live in CS2 1.6.2: var() inside linear-gradient() DOES resolve here (unlike var()
+    // in a border/border-radius shorthand). Note the class is applied as a literal "selected"
+    // from the component, so callers must nest this under `&:global(.selected)` — a module-local
+    // `&.selected` gets hashed and never matches.
+    background-image: linear-gradient(var(--gradientHighlightStart), var(--gradientHighlightEnd));
+    background-color: transparent;
+
+    img {
+        filter: drop-shadow(0 0 1rem rgba(0, 0, 0, 0.5));
+    }
+
+    :global(.legacy-interface) & {
+        background-image: none;
+        background-color: var(--accentColorDark-focused);
+    }
+}

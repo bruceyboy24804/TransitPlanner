@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <Title>Transit Planner</Title>
+        <Version>1.0.0</Version>
+        <AssemblyVersion>$(Version).0</AssemblyVersion>
+        <FileVersion>$(Version).0</FileVersion>
+        <PublishConfigurationPath>Properties\PublishConfiguration.xml</PublishConfigurationPath>
+    </PropertyGroup>
+
+    <!-- Don't compile the submodule's own build output -->
+    <PropertyGroup>
+        <DefaultItemExcludes>$(DefaultItemExcludes);Common\obj\**;Common\bin\**</DefaultItemExcludes>
+    </PropertyGroup>
+
+    <!-- Shared build config: package refs, LangVersion, configs (Debug;Release;I18N), <Reference> list -->
+    <Import Project="Common\ModsCommon.props" />
+
+    <!-- CSII toolchain -->
+    <Import Project="$([System.Environment]::GetEnvironmentVariable('CSII_TOOLPATH', 'EnvironmentVariableTarget.User'))\Mod.props" />
+    <Import Project="$([System.Environment]::GetEnvironmentVariable('CSII_TOOLPATH', 'EnvironmentVariableTarget.User'))\Mod.targets" />
+
+    <!-- Shared build steps. MUST be imported AFTER Mod.targets so the shared
+         CustomModPostProcessorConfig overrides the toolchain's stub (Windows-only build). -->
+    <Import Project="Common\ModsCommon.targets" />
+
+    <!-- Keep these links if you like seeing Mod.props/targets in the IDE (optional) -->
+    <ItemGroup>
+        <None Include="$(ModPropsFile)" Link="Properties\Mod.props" />
+        <None Include="$(ModTargetsFile)" Link="Properties\Mod.targets" />
+    </ItemGroup>
+    <!-- This mod draws nothing in the world; skip the shared overlay renderer and the HDRP
+         references it would otherwise need. -->
+    <ItemGroup>
+        <Compile Remove="Common\Rendering\**\*.cs" />
+    </ItemGroup>
+
+</Project>

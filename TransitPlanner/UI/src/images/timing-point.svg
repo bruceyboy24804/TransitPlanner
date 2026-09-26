@@ -1,0 +1,11 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Timing point: held to the minute. A clock face; one filled colour, drawn as a mask. -->
+  <g fill="#fff" fill-rule="evenodd">
+    <!-- rim -->
+    <path d="M256 36a220 220 0 1 1 0 440a220 220 0 1 1 0-440zm0 44a176 176 0 1 0 0 352a176 176 0 1 0 0-352z"/>
+    <!-- hands: minute hand up, hour hand to the lower right -->
+    <path d="M238 120h36v128l76 76-26 26-86-86z"/>
+    <!-- hub -->
+    <circle cx="256" cy="256" r="30"/>
+  </g>
+</svg>

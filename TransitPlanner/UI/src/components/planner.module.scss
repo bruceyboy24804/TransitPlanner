@@ -1,0 +1,1504 @@
+@use "./base.scss" as _base;
+
+// Gameface notes (see CLAUDE.md): every element is a column flexbox by default, so every row-wise
+// container states flex-direction: row; `gap` does not exist, so spacing is margins; a var() in a
+// shorthand drops the whole declaration, so borders using tokens are written as longhands.
+
+
+.toggleIcon {
+    width: 24rem;
+    height: 24rem;
+}
+
+.panel {
+    width: 1400rem;
+    height: 760rem;
+}
+
+.body {
+    display: flex;
+    flex-direction: row;
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+.lineList {
+    display: flex;
+    flex-direction: column;
+    width: 320rem;
+    flex: 0 0 320rem;
+    min-height: 0;
+    border-right-width: 1px;
+    border-right-style: solid;
+    border-right-color: rgba(255, 255, 255, 0.1);
+}
+
+.lineListScroll {
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+.lineRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 6rem 10rem;
+    color: var(--textColor);
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgba(255, 255, 255, 0.06);
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.06);
+    }
+
+    &.selected {
+        background-color: rgba(255, 255, 255, 0.12);
+    }
+}
+
+.swatch {
+    width: 10rem;
+    height: 28rem;
+    flex: 0 0 10rem;
+    margin-right: 10rem;
+    border-radius: 3rem;
+}
+
+.lineMain {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.lineName {
+    font-size: 14rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.lineMeta {
+    display: flex;
+    flex-direction: row;
+    font-size: 11rem;
+    color: var(--textColorDim);
+}
+
+.lineMeta > * {
+    margin-right: 8rem;
+}
+
+.warn {
+    color: var(--warningColor);
+}
+
+.badge {
+    font-size: 10rem;
+    padding: 1rem 5rem;
+    border-radius: 3rem;
+    background-color: var(--accentColorNormal);
+    color: var(--textColor);
+}
+
+.loadBar {
+    width: 100%;
+    height: 4rem;
+    margin-top: 4rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 2rem;
+}
+
+.loadFill {
+    height: 100%;
+    background-color: var(--accentColorNormal);
+    border-radius: 2rem;
+}
+
+.detail {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+    padding: 10rem 14rem;
+    color: var(--textColor);
+}
+
+.detailTitle {
+    font-size: 18rem;
+    margin-bottom: 8rem;
+}
+
+.detailColor {
+    width: 36rem;
+    height: 24rem;
+    margin-right: 10rem;
+}
+
+.statGrid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 10rem;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    margin-bottom: 8rem;
+}
+
+.statLabel {
+    font-size: 11rem;
+    color: var(--textColorDim);
+    text-transform: uppercase;
+}
+
+.statValue {
+    font-size: 16rem;
+}
+
+.sectionTitle {
+    font-size: 13rem;
+    text-transform: uppercase;
+    color: var(--textColorDim);
+    margin-top: 8rem;
+    margin-bottom: 4rem;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 6rem;
+}
+
+.row > * {
+    margin-right: 8rem;
+}
+
+.stopRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 12rem;
+    padding: 2rem 0;
+}
+
+.empty {
+    color: var(--textColorDim);
+    font-size: 13rem;
+    padding: 20rem;
+}
+
+.editor {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8rem;
+}
+
+.bandEditor {
+    display: flex;
+    flex-direction: column;
+    margin-top: 6rem;
+}
+
+.fieldLabel {
+    width: 90rem;
+    flex: 0 0 90rem;
+    font-size: 12rem;
+    color: var(--textColorDim);
+}
+
+.modeButton {
+    margin-right: 4rem;
+}
+
+// A plain <button> styled like the game's own, for places where cs2/ui's Button brings focus
+// handling we do not want (see CLAUDE.md, Known Traps).
+.flatButton {
+    @include _base.lightButton($hasText: true, $tintIcon: true);
+
+    margin-right: 6rem;
+    padding: 4rem 10rem;
+    font-size: 13rem;
+    white-space: nowrap;
+
+    // :global � the component sets the literal class; a module-local name would be hashed.
+    &:global(.selected) {
+        @include _base.selectedButton;
+    }
+}
+
+.slider {
+    width: 220rem;
+    flex: 0 0 220rem;
+}
+
+.sliderValue {
+    width: 40rem;
+    text-align: right;
+    font-size: 13rem;
+}
+
+.hint {
+    font-size: 12rem;
+    color: var(--textColorDim);
+    margin-top: 6rem;
+}
+
+// A hint sitting inside a field row, next to a slider value: no top margin, a little gap.
+.inlineHint {
+    font-size: 12rem;
+    color: var(--textColorDim);
+    margin-left: 8rem;
+    margin-right: 8rem;
+    align-self: center;
+}
+
+// --- Tabs & fleet manager -----------------------------------------------------------------------
+// The table itself wears the transportation overview's own classes (see vanilla.ts:
+// overviewPage / lineItem); these only size it into our panel and add the selection state.
+
+// The iceflake theme pads the content area 25rem top and bottom; the group strip must sit flush
+// under the header tabs, Find It style, so the padding goes and the strip spaces itself.
+.content {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    // Nothing in the panel scrolls as a whole: the columns cap themselves (min-height: 0 down the
+    // chain) and only the line list, the stops list and the fleet table scroll.
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.fleetPage {
+    flex: 1 1 auto;
+    height: 100%;
+    min-height: 0;
+}
+
+.fleetTypes {
+    display: flex;
+    flex-direction: column;
+}
+
+// Find It's sub-category strip treatment (TopBar.module.scss .subCategoryContainer), on the
+// asset menu's tab bar: a dim plate, item-grid buttons, the game's gradient on the selected one.
+.groupStrip {
+    flex: 0 0 auto;
+    background-color: rgba(0, 0, 0, 0.35);
+    padding: 8rem 10rem 8rem 10rem;
+    margin-bottom: 6rem;
+}
+
+.groupTab {
+    margin-right: 6rem;
+    pointer-events: auto;
+    transition: background-color 0.3s;
+
+    &:global(.selected),
+    &:active {
+        background-image: linear-gradient(var(--gradientHighlightStart), var(--gradientHighlightEnd));
+        background-color: rgba(0, 0, 0, 0);
+
+        img {
+            filter: drop-shadow(0 0 1rem rgba(0, 0, 0, 0.5));
+        }
+    }
+
+    &[disabled] {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+}
+
+:global(.legacy-interface) .groupTab:global(.selected) {
+    background-image: none;
+    background-color: var(--accentColorDark);
+}
+
+.groupIcon {
+    width: 100%;
+    height: 100%;
+}
+
+.fleetLines {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+}
+
+.fleetScroll {
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+.pickedRow {
+    background-color: rgba(0, 194, 255, 0.18);
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+// --- Depots tab ---------------------------------------------------------------------------------
+.depotLines {
+    margin-top: 6rem;
+}
+
+.depotLine {
+    align-items: center;
+    justify-content: flex-start;
+    padding: 3rem 0;
+}
+
+.depotLineName {
+    margin-right: 10rem;
+    cursor: pointer;
+}
+
+.colModels {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    min-width: 0;
+}
+
+.modelTag {
+    font-size: 11rem;
+    padding: 1rem 5rem;
+    margin-right: 4rem;
+    margin-bottom: 2rem;
+    border-radius: 3rem;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dim {
+    color: var(--textColorDim);
+}
+
+.bulk {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 auto;
+    padding: 6rem 10rem;
+    color: var(--textColor);
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+.chips {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex: 1 1 auto;
+}
+
+.chip {
+    margin-bottom: 4rem;
+}
+
+.chipSome {
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--accentColorNormal);
+}
+
+
+// The overview sizes cells proportionally; with our extra columns its 0.8-share action cells
+// collapse below the colour field's width, so the trailing cells take a fixed width instead.
+.actionCell {
+    flex: 0 0 56rem !important;
+    width: 56rem;
+}
+
+.colourCell {
+    flex: 0 0 84rem !important;
+    width: 84rem;
+}
+
+.padLeft {
+    padding-left: 16rem;
+}
+
+// --- Rules tab ----------------------------------------------------------------------------------
+
+.rules {
+    display: flex;
+    flex-direction: row;
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+    padding: 8rem 12rem;
+    color: var(--textColor);
+}
+
+.rulesList {
+    display: flex;
+    flex-direction: column;
+    width: 420rem;
+    flex: 0 0 420rem;
+    min-height: 0;
+    margin-right: 12rem;
+}
+
+.rulesScroll {
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+.ruleRow {
+    display: flex;
+    flex-direction: column;
+    padding: 6rem 8rem;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.06);
+    }
+
+    &.selected {
+        background-color: rgba(255, 255, 255, 0.12);
+    }
+}
+
+.ruleName {
+    font-size: 13rem;
+}
+
+.ruleDesc {
+    font-size: 11rem;
+    color: var(--textColorDim);
+}
+
+.ruleFlags {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2rem;
+}
+
+.ruleEditor {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+}
+
+.stopPicker {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.stopPick {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0 10rem 4rem 0;
+}
+
+.stopPickName {
+    font-size: 12rem;
+    margin-left: 4rem;
+}
+
+// A row whose children wrap onto more lines (the departure-list chips).
+.wrap {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+// The printed timetable: stops down, departures across.
+.ttGrid {
+    display: flex;
+    flex-direction: column;
+    margin-top: 6rem;
+}
+
+.ttRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.ttStop {
+    display: flex;
+    flex-direction: row;
+    width: 180rem;
+    flex: 0 0 auto;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    opacity: 0.75;
+}
+
+.ttHold {
+    opacity: 1;
+    font-weight: bold;
+}
+
+.ttCell {
+    width: 52rem;
+    flex: 0 0 auto;
+    text-align: right;
+}
+
+.ttMark {
+    width: 16rem;
+    flex: 0 0 auto;
+}
+
+.glyph {
+    width: 14rem;
+    height: 14rem;
+    background-color: var(--menuText1Normal);
+    mask-size: contain;
+    mask-position: center;
+    mask-repeat: no-repeat;
+}
+
+// The rule's name filter: the game's text input at a fixed width.
+// A text box in a form (rule name filter, group / plan / template names): the line-rename input
+// theme is borderless (it sits in a table row), so give it the dropdowns' outline and fill.
+.nameFilter {
+    width: 320rem;
+    padding: 2rem 8rem;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-width: 2rem;
+    border-style: solid;
+    border-color: rgba(75, 195, 241, 0.6);
+    position: relative;
+}
+
+// Our placeholder over an empty .nameFilter input (clicks pass through to the input).
+.namePlaceholder {
+    position: absolute;
+    left: 10rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12rem;
+    color: rgba(255, 255, 255, 0.4);
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+// The Options-style dropdown's slot in a row: at least a settings-field width, growing with its
+// text instead of wrapping it (a long stop name made the toggle two lines tall). Never shrunk by
+// the rest of the row.
+.selectHost {
+    min-width: 240rem;
+    flex: 0 0 auto;
+
+    & * {
+        white-space: nowrap;
+        // The Options-screen theme draws its value at 16rem, which beside our 12-13rem labels
+        // reads as another typeface: the size the model dropdown and the labels use.
+        font-size: 13rem;
+    }
+
+    // The game's toggle has a width of its own; make it fill the slot the host is given.
+    & > *,
+    [class*="dropdown-toggle"] {
+        width: 100%;
+    }
+}
+
+// Dropdown sizes: short choices (Off/On) stay small so what follows sits next to them; the
+// stop picker is wide, since the game's toggle ellipsises its text rather than growing.
+.selectNarrow {
+    min-width: 110rem;
+    width: 110rem;
+}
+
+.selectWide {
+    min-width: 360rem;
+    width: 360rem;
+}
+
+// Our own stop glyphs (images/anchor.svg, timing-point.svg): masks tinted per role.
+.glyphAnchor {
+    background-color: rgba(120, 200, 255, 1);
+}
+
+.glyphTiming {
+    background-color: rgba(255, 205, 90, 1);
+}
+
+.ttMark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20rem;
+    margin-right: 6rem;
+
+    & > div {
+        width: 16rem;
+        height: 16rem;
+    }
+}
+
+.ttLegend {
+    font-size: 12rem;
+    color: rgba(255, 255, 255, 0.8);
+
+    & > span {
+        margin-right: 12rem;
+    }
+
+    & > div {
+        margin-right: 4rem;
+    }
+}
+
+// The Timetable tab: the selected line's editor under the table, scrolling on its own so the
+// table keeps its share of the height.
+// Sized by its SplitHandle (inline height, clamped there to leave the table room).
+.ttDetail {
+    flex: 0 0 auto;
+    min-height: 0;
+}
+
+.ttDetailScroll {
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+// The draggable divider between a table and the section under it (split-handle.tsx).
+.splitHandle {
+    flex: 0 0 auto;
+    height: 12rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: ns-resize;
+}
+
+.splitGrip,
+.splitGripActive {
+    width: 60rem;
+    height: 4rem;
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.splitHandle:hover .splitGrip,
+.splitGripActive {
+    background-color: rgba(0, 194, 255, 0.9);
+}
+
+// --- Cargo (cargo-section.tsx) -------------------------------------------------------------------
+
+// The fleet's load by resource: one segment per resource, as a share of the whole capacity.
+.resBar {
+    display: flex;
+    flex-direction: row;
+    height: 14rem;
+    margin-top: 4rem;
+    margin-bottom: 6rem;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-top-left-radius: 3rem;
+    border-top-right-radius: 3rem;
+    border-bottom-left-radius: 3rem;
+    border-bottom-right-radius: 3rem;
+    overflow: hidden;
+}
+
+.resBarPart {
+    height: 100%;
+    flex: 0 0 auto;
+}
+
+// The vanilla BarChart inside .resBar: let it fill the track (its own class sizes nothing).
+.resBar > * {
+    flex: 1 1 auto;
+    height: 100%;
+}
+
+// A ResponsiveChart host: the canvas sizes itself to this box.
+.chart {
+    width: 100%;
+    height: 170rem;
+    margin-top: 6rem;
+    margin-bottom: 6rem;
+}
+
+.chartTall {
+    height: 240rem;
+}
+
+.resLegend {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 12rem;
+    font-size: 12rem;
+}
+
+.resSwatch {
+    width: 10rem;
+    height: 10rem;
+    margin-right: 4rem;
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+}
+
+.resIcon {
+    width: 18rem;
+    height: 18rem;
+    margin-right: 3rem;
+}
+
+.resChips {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.resChip {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 8rem;
+}
+
+// --- Freight page (freight-detail.tsx) -----------------------------------------------------------
+
+// A station resource's rating: the game's own Deficit / Surplus, as text colour on its chip.
+.resDeficit {
+    color: rgba(255, 110, 90, 1);
+}
+
+.resSurplus {
+    color: rgba(255, 205, 90, 1);
+}
+
+// The flow diagram: an SVG for the legs and nodes, HTML labels positioned over it.
+.flow {
+    position: relative;
+    width: 100%;
+    margin-top: 6rem;
+    margin-bottom: 8rem;
+}
+
+.flowSvg {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.flowNode {
+    fill: rgba(30, 36, 44, 1);
+    stroke: rgba(255, 255, 255, 0.85);
+    stroke-width: 2;
+}
+
+.flowLegLabel {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    transform: translateX(-50%);
+    font-size: 11rem;
+    white-space: nowrap;
+}
+
+// A station name under its node; max-width is set inline to the space between nodes, and the
+// name wraps onto a second line rather than being cut.
+.flowStopLabel {
+    position: absolute;
+    white-space: normal;
+    line-height: 1.2em;
+    font-size: 11rem;
+    color: rgba(255, 255, 255, 0.85);
+    cursor: pointer;
+}
+
+.flowStopFirst {
+    text-align: left;
+}
+
+.flowStopMid {
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+// Right-aligned to its node: the label's box ends at `left`.
+.flowStopLast {
+    transform: translateX(-100%);
+    text-align: right;
+}
+
+// Flow diagram v2: vehicle badges, the station name above its stock, and the key.
+.flowBadge {
+    fill: rgba(30, 36, 44, 1);
+    stroke: rgba(140, 220, 255, 0.9);
+    stroke-width: 2;
+}
+
+.flowBadgeText {
+    fill: rgba(255, 255, 255, 0.95);
+    font-size: 11rem;
+    font-weight: bold;
+}
+
+.flowStopName {
+    margin-bottom: 2rem;
+}
+
+.flowLegend {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 8rem;
+    font-size: 11rem;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.flowKey {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 14rem;
+
+    & > svg {
+        margin-right: 5rem;
+    }
+}
+
+// The freight Sankey's labels: icon + tonnage on a band, and notes on an empty leg.
+.sankeyLabel {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 13rem;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.95);
+    white-space: nowrap;
+}
+
+.sankeyNote {
+    position: absolute;
+    font-size: 11rem;
+    color: rgba(255, 255, 255, 0.55);
+    white-space: nowrap;
+}
+
+// "% full · N vehicles", right-aligned to the end of its band.
+.sankeyFull {
+    transform: translateX(-100%);
+    color: rgba(255, 255, 255, 0.85);
+}
+
+// Station names over the Sankey's bars, a touch larger than the diagram's other labels.
+.sankeyStation {
+    font-size: 12rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+// Wait at stops: a stop's header row (checkbox, name, waiting), and a ticked stop's foldout body.
+.waitHeader {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 1 1 auto;
+    font-size: 13rem;
+
+    & > * {
+        margin-right: 8rem;
+    }
+}
+
+.waitFoldout {
+    margin-bottom: 4rem;
+}
+
+.waitBody {
+    padding-left: 8rem;
+    padding-right: 8rem;
+}
+
+// The Schedule tab (schedule-board.tsx): one row per line on a shared 24-hour axis.
+.boardBar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 4rem 8rem;
+}
+
+.boardRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 8rem;
+    padding-right: 8rem;
+    min-height: 28rem;
+}
+
+.boardName {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow: hidden;
+    white-space: nowrap;
+    padding-left: 6rem;
+    cursor: pointer;
+
+    & > * { margin-right: 6rem; }
+}
+
+.boardInfo {
+    font-size: 12rem;
+    white-space: nowrap;
+}
+
+.boardAxis {
+    position: relative;
+    flex: 1 1 auto;
+    height: 18rem;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.04);
+}
+
+.boardTick {
+    position: absolute;
+    top: 2rem;
+    font-size: 10rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.boardTrack {
+    flex: 0 0 auto;
+    cursor: grab;
+}
+
+.boardGroup {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 4rem 8rem;
+    font-size: 12rem;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.85);
+    background-color: rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+
+    & > span { margin-left: 6rem; font-weight: normal; }
+}
+
+.coord {
+    display: flex;
+    flex-direction: column;
+    margin-top: 6rem;
+    margin-bottom: 6rem;
+}
+
+.boardChevron {
+    width: 10rem;
+    height: 10rem;
+    margin-right: 6rem;
+}
+
+// Schedule tab, Traffic-style additions.
+.boardDraft {
+    background-color: rgba(245, 165, 36, 0.12);
+}
+
+.boardProblem {
+    font-size: 12rem;
+    padding: 2rem 8rem;
+    margin-right: 8rem;
+    background-color: rgba(255, 255, 255, 0.06);
+    border-top-left-radius: 3rem;
+    border-top-right-radius: 3rem;
+    border-bottom-left-radius: 3rem;
+    border-bottom-right-radius: 3rem;
+    cursor: pointer;
+}
+
+.boardZoom {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+// A playhead's time cap (Traffic's value marker), centred on its x.
+.boardBubble {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    padding: 0 4rem;
+    font-size: 10rem;
+    color: black;
+    background-color: white;
+    border-top-left-radius: 3rem;
+    border-top-right-radius: 3rem;
+    border-bottom-left-radius: 3rem;
+    border-bottom-right-radius: 3rem;
+}
+
+.boardBubbleNow {
+    background-color: #4bc3f1;
+}
+
+.boardTip {
+    display: flex;
+    flex-direction: column;
+    font-size: 12rem;
+}
+
+// Row grip: three short bars, dragged to reorder.
+.boardGrip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 22rem;
+    cursor: ns-resize;
+
+    & > div {
+        width: 8rem;
+        height: 2rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        background-color: rgba(255, 255, 255, 0.45);
+    }
+}
+
+.boardDropTarget {
+    border-top-width: 2rem;
+    border-top-style: solid;
+    border-top-color: #4bc3f1;
+}
+
+// A row changed on the board but not applied yet.
+.boardDot {
+    width: 6rem;
+    height: 6rem;
+    margin-left: 4rem;
+    background-color: #f5a524;
+    border-top-left-radius: 3rem;
+    border-top-right-radius: 3rem;
+    border-bottom-left-radius: 3rem;
+    border-bottom-right-radius: 3rem;
+}
+
+// The schedule wizard (schedule-wizard.tsx): a boxed form above the rows.
+.wizard {
+    display: flex;
+    flex-direction: column;
+    margin: 6rem 8rem 10rem 8rem;
+    padding: 10rem 12rem;
+    background-color: rgba(75, 145, 226, 0.12);
+    border-top-width: 2rem;
+    border-top-style: solid;
+    border-top-color: #4b91e2;
+}
+
+.wizardTitle {
+    font-size: 16rem;
+    font-weight: bold;
+    margin-bottom: 4rem;
+}
+
+.wizardGrid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 6rem;
+    margin-bottom: 6rem;
+
+    & > * { margin-right: 8rem; margin-bottom: 4rem; }
+}
+
+// One playhead line over all rows of the Schedule tab.
+.boardRows {
+    position: relative;
+}
+
+.boardPlayhead,
+.boardPlayheadNow {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2rem;
+    margin-left: -1rem;
+    pointer-events: none;
+    background-color: white;
+}
+
+.boardPlayheadNow {
+    background-color: #4bc3f1;
+}
+
+// The header's tab strip: the game's tabs have min-width 200rem, seven of them overflow the
+// panel. Let them shrink and share the row, clear of the close button on the right.
+.headerTabs {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+
+    & > div {
+        flex: 1 1 auto;
+        width: 100%;
+        padding-right: 40rem;
+    }
+
+    & button {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+}
+
+// The close button sits in the title bar, which is as tall as title + tabs, so it floated
+// halfway down beside the tabs: pin it to the panel's top-right corner.
+// The encyclopedia's ? and the close button, together in the panel's top-right corner, level
+// with the title. Both are positioned against the panel; the close button also carries the
+// theme's ~10rem margin, so its top is 10rem less than the ?'s for the two to line up.
+.headerHelp {
+    position: absolute;
+    top: 5rem;
+    right: -23rem;
+
+    & > div {
+        width: 24rem;
+        height: 24rem;
+        border-top-left-radius: 12rem;
+        border-top-right-radius: 12rem;
+        border-bottom-left-radius: 12rem;
+        border-bottom-right-radius: 12rem;
+        font-size: 15rem;
+    }
+}
+
+.panel [class*="close-button"] {
+    position: absolute;
+    top: -5rem;
+    right: 8rem;
+}
+
+// Schedule-tab toolbars: room between controls and between wrapped rows, a divider per group.
+.boardBar {
+    padding-top: 6rem;
+    padding-bottom: 2rem;
+
+    & > * {
+        margin-right: 8rem;
+        margin-bottom: 6rem;
+    }
+}
+
+.boardSep {
+    width: 1rem;
+    height: 28rem;
+    margin-left: 6rem;
+    margin-right: 14rem;
+    background-color: rgba(255, 255, 255, 0.18);
+}
+
+.coordScale {
+    position: relative;
+    height: 16rem;
+}
+
+// Schedule toolbar, Traffic-style: sections with an uppercase label, divided by thin rules.
+.boardTools {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    padding: 6rem 8rem 4rem 8rem;
+}
+
+.boardSection {
+    display: flex;
+    flex-direction: column;
+    padding-right: 14rem;
+    margin-right: 14rem;
+    margin-bottom: 6rem;
+    border-right-width: 1rem;
+    border-right-style: solid;
+    border-right-color: rgba(255, 255, 255, 0.12);
+
+    &:last-child {
+        border-right-width: 0;
+        margin-right: 0;
+    }
+}
+
+.boardSectionLabel {
+    // The planner's own section-title look (.sectionTitle): the game font at its normal weight;
+    // the small bold letter-spaced caps it had read as another typeface.
+    font-size: 13rem;
+    text-transform: uppercase;
+    color: var(--textColorDim);
+    margin-bottom: 4rem;
+}
+
+.boardSectionBody {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    & > * { margin-right: 6rem; }
+}
+
+// The shared select host has min-width 240rem; the toolbar's dropdowns are narrower on purpose
+// (scoped under the toolbar so the rule outranks .selectHost).
+.boardTools .boardSelect {
+    width: 190rem;
+    min-width: 0;
+}
+
+.boardTools .boardSelectSmall {
+    width: 120rem;
+    min-width: 0;
+}
+
+// Glyph button: a tinted mask on a small square, like vanilla's IconButton.
+.boardGlyph {
+    width: 30rem;
+    height: 30rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-top-left-radius: 3rem;
+    border-top-right-radius: 3rem;
+    border-bottom-left-radius: 3rem;
+    border-bottom-right-radius: 3rem;
+    cursor: pointer;
+
+    &:hover { background-color: rgba(255, 255, 255, 0.2); }
+}
+
+.boardGlyphOff {
+    opacity: 0.35;
+    cursor: default;
+}
+
+.boardGlyphIcon {
+    width: 18rem;
+    height: 18rem;
+    background-color: white;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+// A labelled step in a form (Rules: IF / THEN · …): the toolbar's small caps over a thin rule.
+.formStep {
+    margin-top: 12rem;
+    margin-bottom: 6rem;
+    padding-bottom: 4rem;
+    // As .boardSectionLabel: the game font at its normal weight, not small bold spaced caps.
+    font-size: 13rem;
+    text-transform: uppercase;
+    color: var(--textColorDim);
+    border-bottom-width: 1rem;
+    border-bottom-style: solid;
+    border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+// Find It's search box sizing (topBar.module.scss .textBox), on the game's editor-item input.
+.textField {
+    width: 260rem;
+    padding: 6rem 8rem 4rem 8rem;
+    line-height: 18rem;
+    font-size: 13rem;
+    border-width: 2.5rem;
+    border-top-left-radius: 5rem;
+    border-top-right-radius: 5rem;
+    border-bottom-left-radius: 5rem;
+    border-bottom-right-radius: 5rem;
+}
+
+// Small figures in a row (the timetable's performance): value over a quiet label.
+.statChips {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 8rem;
+}
+
+.statChip {
+    display: flex;
+    flex-direction: column;
+    padding: 6rem 12rem;
+    margin-right: 8rem;
+    background-color: rgba(255, 255, 255, 0.06);
+    border-top-left-radius: 4rem;
+    border-top-right-radius: 4rem;
+    border-bottom-left-radius: 4rem;
+    border-bottom-right-radius: 4rem;
+}
+
+.statChipValue {
+    font-size: 18rem;
+    font-weight: bold;
+}
+
+.statChipLabel {
+    font-size: 11rem;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+// --- Traffic's editor styling (Traffic.css: sectionRow / left / right / title / dropdownToggle /
+// actions). Used by the Timetable editor.
+.tRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 5rem 10rem;
+}
+
+.tRowSub {
+    color: var(--textColorDimmer);
+}
+
+.tLeft {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 1 1 0;
+    font-size: 13rem;
+    color: var(--textColorDim);
+}
+
+.tRight {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 1 1 0;
+    color: var(--textColorDim);
+
+    & > * { margin-left: 6rem; }
+}
+
+.tTitle {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 13rem;
+    color: var(--textColorDim);
+    margin-top: 12rem;
+    margin-bottom: 6rem;
+}
+
+// Traffic's dropdownToggle: a grey pill, accent on hover.
+.pillHost {
+    width: 200rem;
+    flex: 0 0 auto;
+
+    & * { white-space: nowrap; }
+    & > * { width: 100%; }
+}
+
+.pillToggle {
+    width: 100%;
+    // The menu theme's toggle draws a blue outline; Traffic's pill has none.
+    border-width: 0;
+    height: 30rem;
+    padding: 0 8rem;
+    color: white;
+    background-color: rgba(135, 135, 135, 0.49);
+    border-top-left-radius: 4rem;
+    border-top-right-radius: 4rem;
+    border-bottom-left-radius: 4rem;
+    border-bottom-right-radius: 4rem;
+
+    &:hover { background-color: var(--accentColorNormal-hover); }
+}
+
+// Traffic's action buttons: grey pills; selected in the accent colour.
+.pillButton {
+    height: 30rem;
+    padding: 0 10rem;
+    color: white;
+    background-color: rgba(135, 135, 135, 0.49);
+    border-top-left-radius: 4rem;
+    border-top-right-radius: 4rem;
+    border-bottom-left-radius: 4rem;
+    border-bottom-right-radius: 4rem;
+
+    &:hover { background-color: var(--accentColorNormal-hover); }
+    &:global(.selected) { color: black; background-color: var(--accentColorLight); }
+}
+
+// A form column at Traffic's editor width.
+.tForm {
+    display: flex;
+    flex-direction: column;
+    width: 620rem;
+    max-width: 100%;
+    margin-bottom: 10rem;
+}
+
+// Schedule tab: the scrollbar under a zoomed axis.
+.boardScrollTrack {
+    position: relative;
+    height: 10rem;
+    margin-top: 2rem;
+    margin-bottom: 4rem;
+    background-color: rgba(255, 255, 255, 0.06);
+    border-top-left-radius: 5rem;
+    border-top-right-radius: 5rem;
+    border-bottom-left-radius: 5rem;
+    border-bottom-right-radius: 5rem;
+    cursor: pointer;
+}
+
+.boardScrollThumb {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.35);
+    border-top-left-radius: 5rem;
+    border-top-right-radius: 5rem;
+    border-bottom-left-radius: 5rem;
+    border-bottom-right-radius: 5rem;
+    pointer-events: none;
+
+    .boardScrollTrack:hover & { background-color: rgba(255, 255, 255, 0.55); }
+}
+
+// The dropdown option list and plain form values at the size of the labels around them (the
+// game's menu theme draws both at 16rem).
+.selectItem {
+    font-size: 13rem;
+}
+
+.formValue {
+    font-size: 13rem;
+}
