@@ -113,7 +113,7 @@ A built-in guide to every feature, with screenshots and a search box. The **?** 
 	<!--Tag, can be set multiple times-->
 	<Tag Value="" />
 	<!--Link to the forum post where the mod can be discussed-->
-	<ForumLink Value="" />
+	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/transit-planner.1942795/" />
 	<!--Version of the mod-->
 	<ModVersion Value="1.0" />
 	<!--Recommended version of the base game to use the mod-->
@@ -124,10 +124,11 @@ A built-in guide to every feature, with screenshots and a search box. The **?** 
 	<RequiredDLC Value="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 	<ChangeLog># Version 1.0
-- Public release	
+- Release	
 	</ChangeLog>
 	<!--External link, can be set multiple times. supported types are "discord", "github", "youtube", "twitch", "x", "paypal", "patreon", "buymeacoffee", "kofi", "crowdin", "gitlab", "gofundme"-->
-	<ExternalLink Type="" Url="" />
+	<ExternalLink Type="github" Url="https://github.com/bruceyboy24804/TransitPlanner" />
+	<ExternalLink Type="discord" Url="https://discord.gg/QrbPe44yv" />
 	<!--Supported values Public, Private, Unlisted-->
 	<AccessLevel Value="Public" />
 </Publish>
